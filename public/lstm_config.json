@@ -1,0 +1,13 @@
+{
+  "sequence_length": 30,
+  "num_features": 159,
+  "num_classes": 6,
+  "labels": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f"
+  ]
+}
