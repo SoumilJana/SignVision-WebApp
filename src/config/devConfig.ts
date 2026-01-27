@@ -11,10 +11,10 @@
 // ============================================
 
 /** Bypass authentication - skip login requirement */
-export const BYPASS_AUTH = false;  // ← Set to FALSE to use real Firebase auth
+export const BYPASS_AUTH = true;  // ← Set to FALSE to use real Firebase auth
 
 /** Bypass MFA verification during login */
-export const BYPASS_MFA = false;  // ✅ Real MFA is now enabled
+export const BYPASS_MFA = true;  // ✅ Real MFA is now enabled
 /** Bypass payment/subscription requirement */
 export const BYPASS_PAYMENT = true;
 

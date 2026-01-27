@@ -2,11 +2,9 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { initModel, predict, clearPredictionCache } from '../services/SignPredictor'
 
 // MediaPipe Holistic types
-interface HolisticResults {
-    poseLandmarks?: Array<{ x: number, y: number, z: number, visibility?: number }>
-    leftHandLandmarks?: Array<{ x: number, y: number, z: number }>
-    rightHandLandmarks?: Array<{ x: number, y: number, z: number }>
-}
+// MediaPipe Holistic types
+import { Holistic, type Results } from '@mediapipe/holistic'
+
 
 interface CameraProps {
     onSignDetected: (sign: string, confidence: number) => void
@@ -138,7 +136,7 @@ function Camera({ onSignDetected, onHoldProgress, onAddLetter }: CameraProps) {
     }, [])
 
     // Process holistic results
-    const onResults = useCallback(async (results: HolisticResults) => {
+    const onResults = useCallback(async (results: Results) => {
         if (!canvasRef.current) return
 
         const ctx = canvasRef.current.getContext('2d')
@@ -257,7 +255,7 @@ function Camera({ onSignDetected, onHoldProgress, onAddLetter }: CameraProps) {
 
     // Initialize camera and MediaPipe Holistic
     useEffect(() => {
-        let holistic: any = null
+        let holistic: Holistic | null = null
         let animationId: number
         let stream: MediaStream | null = null
         let isMounted = true
@@ -317,17 +315,11 @@ function Camera({ onSignDetected, onHoldProgress, onAddLetter }: CameraProps) {
                 console.log('🔄 Initializing ONNX model...')
                 await initModel()
 
-                // Load MediaPipe Holistic from CDN (loaded via script tag in index.html)
+                // Load MediaPipe Holistic from NPM
                 console.log('🔄 Initializing MediaPipe Holistic...')
 
-                // @ts-ignore - Loaded via CDN script tag
-                const HolisticClass = window.Holistic
-                if (!HolisticClass) {
-                    throw new Error('MediaPipe Holistic not loaded. Check index.html script tag.')
-                }
-
-                holistic = new HolisticClass({
-                    locateFile: (file: string) => {
+                holistic = new Holistic({
+                    locateFile: (file) => {
                         return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`
                     }
                 })

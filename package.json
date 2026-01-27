@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mediapipe/hands": "^0.4.1675469240",
+    "@mediapipe/holistic": "^0.5.1675471629",
     "@types/qrcode": "^1.5.6",
     "firebase": "^12.8.0",
     "onnxruntime-web": "^1.23.2",
