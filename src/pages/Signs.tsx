@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Modal from '../components/Modal'
 
 function Signs() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -27,6 +28,16 @@ function Signs() {
         gesture.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         gesture.description.toLowerCase().includes(searchQuery.toLowerCase())
     )
+
+    const [selectedSign, setSelectedSign] = useState<any>(null); // State for modal
+
+    const openModal = (item: any) => {
+        setSelectedSign(item);
+    };
+
+    const closeModal = () => {
+        setSelectedSign(null);
+    };
 
     return (
         <div className="home-container">
@@ -111,7 +122,12 @@ function Signs() {
                         <h2 className="section-title">Signs</h2>
                         <div className="signs-alphabet-grid">
                             {filteredAlphabet.map(letter => (
-                                <div key={letter} className="sign-card">
+                                <div
+                                    key={letter}
+                                    className="sign-card"
+                                    onClick={() => openModal({ type: 'letter', value: letter, title: `Letter ${letter}` })}
+                                    style={{ cursor: 'pointer' }}
+                                >
                                     <span className="sign-letter">{letter}</span>
                                     <span className="sign-label">Letter {letter}</span>
                                 </div>
@@ -126,7 +142,12 @@ function Signs() {
                         <h2 className="section-title">Gestures</h2>
                         <div className="gestures-grid">
                             {filteredGestures.map(gesture => (
-                                <div key={gesture.name} className="gesture-card">
+                                <div
+                                    key={gesture.name}
+                                    className="gesture-card"
+                                    onClick={() => openModal({ type: 'gesture', ...gesture, title: gesture.name })}
+                                    style={{ cursor: 'pointer' }}
+                                >
                                     <h3 className="gesture-name">{gesture.name}</h3>
                                     <p className="gesture-description">{gesture.description}</p>
                                 </div>
@@ -154,6 +175,47 @@ function Signs() {
                     </ul>
                 </section>
             </main>
+
+            {/* Modal */}
+            <Modal
+                isOpen={!!selectedSign}
+                onClose={closeModal}
+                title={selectedSign?.title}
+            >
+                <div className="sign-modal-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+                    <div className="placeholder-media" style={{
+                        width: '100%',
+                        height: '300px',
+                        backgroundColor: 'var(--bg-secondary)',
+                        borderRadius: 'var(--border-radius)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--text-muted)',
+                        border: '1px dashed var(--border-color)'
+                    }}>
+                        {/* Placeholder Content */}
+                        <div style={{ textAlign: 'center' }}>
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ marginBottom: '12px', opacity: 0.5 }}>
+                                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                <line x1="7" y1="2" x2="7" y2="22"></line>
+                                <line x1="17" y1="2" x2="17" y2="22"></line>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <line x1="2" y1="7" x2="7" y2="7"></line>
+                                <line x1="2" y1="17" x2="7" y2="17"></line>
+                                <line x1="17" y1="17" x2="22" y2="17"></line>
+                                <line x1="17" y1="7" x2="22" y2="7"></line>
+                            </svg>
+                            <p>Image/Video Placeholder for {selectedSign?.title}</p>
+                        </div>
+                    </div>
+                    {selectedSign?.description && (
+                        <p className="modal-description" style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+                            {selectedSign.description}
+                        </p>
+                    )}
+                </div>
+            </Modal>
 
             {/* Footer */}
             <footer className="app-footer">
