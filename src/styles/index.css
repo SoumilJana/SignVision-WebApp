@@ -1004,29 +1004,34 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 16px;
+  padding: 28px 20px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   cursor: pointer;
   transition: all var(--transition-fast);
+  min-height: 100px;
 }
 
 .sign-card:hover {
   background: var(--bg-card-hover);
   border-color: var(--accent-primary);
+  transform: translateY(-2px);
 }
 
 .sign-letter {
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent-primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+  line-height: 1;
 }
 
 .sign-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
+  font-weight: 400;
 }
 
 /* Gestures Grid */
