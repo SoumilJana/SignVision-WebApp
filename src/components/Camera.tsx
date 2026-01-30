@@ -407,7 +407,7 @@ function Camera({ onSignDetected, onHoldProgress, onAddLetter }: CameraProps) {
     }
 
     return (
-        <div className="camera-container">
+        <div className="camera-container" style={{ position: 'relative', overflow: 'hidden', background: '#000', borderRadius: 24, width: '100%', height: '100%' }}>
             {isLoading && (
                 <div style={{
                     position: 'absolute',
@@ -416,90 +416,143 @@ function Camera({ onSignDetected, onHoldProgress, onAddLetter }: CameraProps) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     background: 'var(--bg-card)',
-                    zIndex: 10
+                    zIndex: 20
                 }}>
                     <div className="pulse" style={{ color: 'var(--text-secondary)' }}>
-                        Loading camera & models...
+                        Initializing Neural Engine...
                     </div>
                 </div>
             )}
+
+            {/* Video Feed - Full Cover */}
             <video
                 ref={videoRef}
                 className="camera-video"
                 playsInline
                 muted
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                }}
             />
+
+            {/* Canvas Overlay - Matches Video */}
             <canvas
                 ref={canvasRef}
                 className="camera-overlay"
-                style={{ transform: 'scaleX(-1)' }}
+                style={{
+                    transform: 'scaleX(-1)',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0
+                }}
             />
 
-            {/* Hand detection status */}
+            {/* --- SCANNER HUD OVERLAYS REMOVED --- */}
+
+            {/* 2. Top Status Bar (Minimal Badges) */}
             <div style={{
                 position: 'absolute',
                 top: 16,
                 right: 16,
                 display: 'flex',
                 gap: 8,
-                fontSize: 14,
-                fontWeight: 500
+                zIndex: 10
             }}>
-                <span style={{
-                    padding: '4px 8px',
-                    borderRadius: 4,
-                    background: handsStatus.left ? 'rgba(255, 107, 107, 0.8)' : 'rgba(0,0,0,0.5)',
-                    color: '#fff'
+                <div style={{
+                    padding: '6px 10px',
+                    borderRadius: 20,
+                    background: 'rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(4px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: handsStatus.left ? '#ff6b6b' : 'rgba(255, 255, 255, 0.3)',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4
                 }}>
-                    L {handsStatus.left ? '✓' : '✗'}
-                </span>
-                <span style={{
-                    padding: '4px 8px',
-                    borderRadius: 4,
-                    background: handsStatus.right ? 'rgba(78, 205, 196, 0.8)' : 'rgba(0,0,0,0.5)',
-                    color: '#fff'
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: handsStatus.left ? '#ff6b6b' : 'rgba(255, 255, 255, 0.3)' }} />
+                    L
+                </div>
+                <div style={{
+                    padding: '6px 10px',
+                    borderRadius: 20,
+                    background: 'rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(4px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: handsStatus.right ? '#4ecdc4' : 'rgba(255, 255, 255, 0.3)',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4
                 }}>
-                    R {handsStatus.right ? '✓' : '✗'}
-                </span>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: handsStatus.right ? '#4ecdc4' : 'rgba(255, 255, 255, 0.3)' }} />
+                    R
+                </div>
             </div>
 
+            {/* 3. Live Prediction Label (Floating near top-left) */}
             {currentPrediction && (
                 <div style={{
                     position: 'absolute',
                     top: 16,
                     left: 16,
-                    background: 'rgba(0,0,0,0.7)',
-                    padding: '8px 16px',
-                    borderRadius: 8,
-                    color: 'var(--accent-primary)',
+                    background: 'rgba(59, 130, 246, 0.2)',
+                    backdropFilter: 'blur(8px)',
+                    padding: '6px 16px',
+                    borderRadius: 20,
+                    border: '1px solid rgba(59, 130, 246, 0.3)',
+                    color: '#fff',
                     fontWeight: 600,
-                    fontSize: 24
+                    fontSize: 14,
+                    letterSpacing: 1,
+                    zIndex: 10,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
                 }}>
                     {currentPrediction}
                 </div>
             )}
 
-            {/* Visual feedback when letter is registered */}
+            {/* 4. Success Toast (Bottom Left for better reachability) */}
             {justRegistered && (
                 <div style={{
                     position: 'absolute',
-                    bottom: 16,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: 'rgba(46, 204, 113, 0.9)',
-                    padding: '12px 24px',
-                    borderRadius: 12,
+                    bottom: 24,
+                    left: 16,
+                    background: 'rgba(16, 185, 129, 0.9)',
+                    backdropFilter: 'blur(4px)',
+                    padding: '8px 16px',
+                    borderRadius: 24,
                     color: '#fff',
-                    fontWeight: 700,
-                    fontSize: 20,
+                    fontWeight: 600,
+                    fontSize: 14,
                     display: 'flex',
                     alignItems: 'center',
                     gap: 8,
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                    zIndex: 15,
+                    animation: 'slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
                 }}>
-                    ✓ {justRegistered} added!
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{justRegistered}</span>
                 </div>
             )}
+
+            {/* Inline Animation Styles */}
+            <style>{`
+                @keyframes slideDown {
+                    from { transform: translate(-50%, -20px); opacity: 0; }
+                    to { transform: translate(-50%, 0); opacity: 1; }
+                }
+            `}</style>
         </div>
     )
 }

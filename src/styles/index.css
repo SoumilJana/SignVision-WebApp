@@ -2108,3 +2108,307 @@ body {
   font-size: 14px;
   line-height: 1.6;
 }
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* ============================================
+     MOBILE NAVIGATION
+     ============================================ */
+
+  /* Hide desktop header logo and make header minimal */
+  .app-header {
+    padding: 8px 16px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  /* Move navigation to bottom (mobile app style) */
+  .nav-tabs {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 8px 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0;
+    z-index: 1000;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-tab {
+    flex-direction: column;
+    padding: 4px 12px;
+    gap: 4px;
+    font-size: 11px;
+    flex: 1;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+  .nav-tab svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ============================================
+     HOME PAGE MOBILE
+     ============================================ */
+
+  .home-main {
+    padding: 24px 16px;
+    padding-bottom: 80px;
+    /* Space for bottom nav */
+  }
+
+  .hero-section {
+    margin-bottom: 32px;
+  }
+
+  .hero-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  /* Single column layout for features */
+  .features-section {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .feature-card {
+    padding: 20px;
+  }
+
+  .getting-started-section {
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  /* ============================================
+     TRANSLATOR PAGE MOBILE - COMPACT LAYOUT
+     ============================================ */
+
+  .app-container {
+    height: 100vh;
+    height: 100dvh;
+    /* Dynamic viewport height for mobile browsers */
+  }
+
+  .translator-content {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: unset;
+    gap: 8px;
+    padding: 8px;
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+    /* Bottom nav height */
+    overflow: hidden;
+    /* No scrolling - everything fits in viewport */
+    height: 100%;
+  }
+
+  /* Left column takes full width and uses flex layout */
+  .translator-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Camera card grows to fill available space */
+  .translator-camera-card {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .translator-camera-wrapper {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .camera-video {
+    object-fit: cover;
+  }
+
+  /* Text display - more compact */
+  .translator-text-card {
+    flex-shrink: 0;
+  }
+
+  .translator-text-card .card-header {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .translator-text-display {
+    padding: 10px 12px;
+    font-size: 14px;
+    min-height: 50px;
+  }
+
+  .translator-progress {
+    padding: 0 12px 10px;
+  }
+
+  /* Right column - HIDE on mobile to save space */
+  .translator-right {
+    display: none;
+    /* Hidden: use Settings tab for settings, Hand Signs not critical */
+  }
+
+  /* Controls section - make horizontal row for compact layout */
+  .translator-right .controls-buttons {
+    display: flex;
+    flex-direction: row;
+    padding: 6px;
+    gap: 8px;
+  }
+
+  /* Show ONLY the Controls card from right column, positioned after text */
+  .translator-content .translator-right:last-child {
+    display: block;
+  }
+
+  /* Hide Hand Signs and Settings cards specifically */
+  .translator-right .card:has(.hand-signs-display),
+  .translator-right .card:has(.settings-list) {
+    display: none;
+  }
+
+  /* Keep only Controls card visible with horizontal buttons */
+  .translator-right .card:has(.controls-buttons) {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .translator-right .controls-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .translator-right .control-btn {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 12px;
+    min-height: 48px;
+    transition: transform 0.1s ease;
+    /* Smooth press animation */
+  }
+
+  /* Active/Hover state for mobile touch - Subtle Press Animation */
+  .translator-right .control-btn:active {
+    transform: scale(0.95);
+    background: var(--bg-card-hover);
+    /* Optional: slight feedback color */
+  }
+
+  /* ============================================
+     SETTINGS PAGE MOBILE
+     ============================================ */
+
+  .settings-container {
+    padding-bottom: 80px;
+    /* Space for bottom nav */
+  }
+
+  /* ============================================
+     ABOUT PAGE MOBILE
+     ============================================ */
+
+  .about-container {
+    padding-bottom: 80px;
+    /* Space for bottom nav */
+  }
+
+  /* ============================================
+     CARD COMPONENT MOBILE
+     ============================================ */
+
+  .card {
+    border-radius: 10px;
+  }
+
+  .card-header {
+    display: none;
+    /* Hide all card headers on mobile for cleaner look */
+  }
+
+  .card-body {
+    padding: 16px;
+  }
+
+  /* Remove boxy card styling on mobile for Translator page components */
+  .translator-content .card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  /* Glass effect for text display */
+  .translator-text-display {
+    background: rgba(18, 18, 31, 0.85);
+    /* Semi-transparent dark background */
+    backdrop-filter: blur(8px);
+    /* Glass blur effect */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle glowing border */
+    border-radius: 16px;
+    /* Rounded modern corners */
+    padding: 16px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 4px;
+    /* Slight inset */
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ============================================
+     GENERAL MOBILE UTILITIES
+     ============================================ */
+
+  /* Reduce animations on mobile for performance */
+  .card:hover {
+    transform: none;
+  }
+
+  /* Ensure no horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Better touch targets */
+  button,
+  .btn,
+  .control-btn,
+  .nav-tab {
+    min-height: 44px;
+  }
+}
